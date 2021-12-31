@@ -1,7 +1,8 @@
 import React from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Container, Heading } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
+import { NavBar } from '../../modules/home/components/Navbar';
 
 const Home: NextPage = () => (
   <Container
@@ -13,7 +14,8 @@ const Home: NextPage = () => (
       <meta name="description" content="SuperFlix, watch the best films and series online" />
     </Head>
 
-    <Heading>Welcome to SuperFlix!!</Heading>
+    <NavBar />
+
   </Container>
 );
 
