@@ -18,8 +18,14 @@ const Home: NextPage<HomeProps> = ({ lastVideo }) => {
   return (
     <Container
       p={0}
+      h="100vh"
       maxW="container.xl"
-      maxH="max"
+      background={`
+        linear-gradient(to bottom, transparent, black),
+        url(${lastVideo.primaryBackground.url})
+      `}
+      bgPosition="center"
+      bgSize="cover"
     >
       <Head>
         <title>Home - SuperFLIX</title>
@@ -27,10 +33,6 @@ const Home: NextPage<HomeProps> = ({ lastVideo }) => {
       </Head>
 
       <NavBar />
-
-      {
-        JSON.stringify(lastVideo)
-      }
 
     </Container>
   );
