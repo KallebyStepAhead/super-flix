@@ -8,7 +8,6 @@ class MyDocument extends Document {
     return (
       <Html lang="pt-BR">
         <Head>
-          <title>SuperFLIX</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
