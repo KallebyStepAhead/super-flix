@@ -6,37 +6,36 @@ import { Video } from '../modules/home/schemas/video';
 import { getVideos } from '../modules/home/functions/getVideos';
 import { getLastVideo } from '../modules/home/functions/getLastVideo';
 import { NavBar } from '../modules/home/components/Navbar';
+import { MainVideoInfo } from '../modules/home/components/MainVideoInfo';
 
 type HomeProps = {
   videos: Video[]
   lastVideo: Video
 }
 
-const Home: NextPage<HomeProps> = ({ lastVideo }) => {
-  console.log(lastVideo);
-
-  return (
-    <Container
-      p={0}
-      h="100vh"
-      maxW="container.xl"
-      background={`
+const Home: NextPage<HomeProps> = ({ lastVideo }) => (
+  <Container
+    p={0}
+    h="100vh"
+    maxW="container.xl"
+    background={`
         linear-gradient(to bottom, transparent, black),
         url(${lastVideo.primaryBackground.url})
       `}
-      bgPosition="center"
-      bgSize="cover"
-    >
-      <Head>
-        <title>Home - SuperFLIX</title>
-        <meta name="description" content="SuperFlix, watch the best films and series online" />
-      </Head>
+    bgPosition="center"
+    bgSize="cover"
+  >
+    <Head>
+      <title>Home - SuperFLIX</title>
+      <meta name="description" content="SuperFlix, watch the best films and series online" />
+    </Head>
 
-      <NavBar />
+    <NavBar />
 
-    </Container>
-  );
-};
+    <MainVideoInfo data={lastVideo} />
+
+  </Container>
+);
 
 export default Home;
 
