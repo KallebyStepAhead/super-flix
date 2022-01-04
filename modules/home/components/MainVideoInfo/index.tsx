@@ -29,7 +29,7 @@ export function MainVideoInfo({ data }: MainVideoInfoProps) {
 
       <Button
         px={16}
-        borderRadius={16}
+        rounded="2xl"
         textTransform="uppercase"
         transition="all .2s ease-in-out"
         bgColor="purple.600"
