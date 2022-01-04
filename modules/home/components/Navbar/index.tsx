@@ -6,7 +6,6 @@ import { NavOptions } from './NavOptions';
 export function NavBar() {
   return (
     <Flex
-      py={8}
       px={16}
       justifyContent="space-between"
     >

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
-import { Container } from '@chakra-ui/react';
+import { Container, Flex, Spacer } from '@chakra-ui/react';
 import { Video } from '../modules/home/schemas/video';
 import { getVideos } from '../modules/home/functions/getVideos';
 import { getLastVideo } from '../modules/home/functions/getLastVideo';
@@ -15,7 +15,7 @@ type HomeProps = {
 
 const Home: NextPage<HomeProps> = ({ lastVideo }) => (
   <Container
-    p={0}
+    py={8}
     h="100vh"
     maxW="container.xl"
     background={`
@@ -30,10 +30,18 @@ const Home: NextPage<HomeProps> = ({ lastVideo }) => (
       <meta name="description" content="SuperFlix, watch the best films and series online" />
     </Head>
 
-    <NavBar />
+    <Flex
+      h="full"
+      w="full"
+      gap={8}
+      flexDirection="column"
+    >
+      <NavBar />
 
-    <MainVideoInfo data={lastVideo} />
+      <Spacer />
 
+      <MainVideoInfo data={lastVideo} />
+    </Flex>
   </Container>
 );
 
