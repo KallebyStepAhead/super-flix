@@ -7,17 +7,18 @@ import { getVideos } from '../modules/home/functions/getVideos';
 import { getLastVideo } from '../modules/home/functions/getLastVideo';
 import { NavBar } from '../modules/home/components/Navbar';
 import { MainVideoInfo } from '../modules/home/components/MainVideoInfo';
+import { ListSection } from '../modules/home/components/ListSection';
 
 type HomeProps = {
   videos: Video[]
   lastVideo: Video
 }
 
-const Home: NextPage<HomeProps> = ({ lastVideo }) => (
+const Home: NextPage<HomeProps> = ({ videos, lastVideo }) => (
   <Container
     py={8}
     h="100vh"
-    maxW="container.xl"
+    maxW="full"
     background={`
         linear-gradient(to bottom, transparent, black),
         url(${lastVideo.primaryBackground.url})
@@ -40,7 +41,14 @@ const Home: NextPage<HomeProps> = ({ lastVideo }) => (
 
       <Spacer />
 
-      <MainVideoInfo data={lastVideo} />
+      <MainVideoInfo
+        data={lastVideo}
+      />
+
+      <ListSection
+        title="My List"
+        data={videos}
+      />
     </Flex>
   </Container>
 );
