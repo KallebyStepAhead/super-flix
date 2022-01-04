@@ -47,6 +47,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       videos,
       lastVideo,
     },
-  });
+    revalidate: 3600 * 8, // 8 hours
   };
 };
