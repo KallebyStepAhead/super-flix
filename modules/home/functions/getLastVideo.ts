@@ -15,17 +15,10 @@ export const getVideosQuery: TypedDocumentNode<GetLastVideoData> = gql`
     videos(last: 1) {
       id
       title
-      description
       thumbnail {
         url
       }
-      videoContent {
-        url
-      }
       primaryBackground {
-        url
-      }
-      secondaryBackground {
         url
       }
     }
