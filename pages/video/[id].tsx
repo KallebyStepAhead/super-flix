@@ -6,7 +6,7 @@ import { Video } from '../../modules/video/schemas/video';
 import { getVideos } from '../../modules/video/functions/getVideos';
 import { getVideoById } from '../../modules/video/functions/getVideoById';
 
-type IVideoParams = ParsedUrlQuery & {
+export type IVideoParams = ParsedUrlQuery & {
   id: string
 }
 

@@ -24,6 +24,7 @@
         "linebreak-style": "off",
         "react/prop-types": "off",
         "import/extensions": "off",
+        "react/jsx-no-bind": "off",
         "import/no-unresolved": "off",
         "jsx-a11y/anchor-is-valid": "off",
         "react/require-default-props": "off",

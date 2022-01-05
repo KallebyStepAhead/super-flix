@@ -1,5 +1,7 @@
 import { Image, ListItem } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React from 'react';
+import { IVideoParams } from '../../../../pages/video/[id]';
 import { Video } from '../../schemas/video';
 
 type VideoItemProps = {
@@ -7,9 +9,23 @@ type VideoItemProps = {
 }
 
 export function VideoItem({ data }: VideoItemProps) {
+  const router = useRouter();
+
+  function goToVideoPage() {
+    const query: IVideoParams = {
+      id: data.id,
+    };
+
+    router.push({
+      pathname: '/video/[id]',
+      query,
+    });
+  }
+
   return (
     <ListItem
       cursor="pointer"
+      onClick={goToVideoPage}
     >
       <Image
         src={data.thumbnail.url}
