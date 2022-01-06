@@ -20,7 +20,14 @@ type VideoPageStaticProps = {
 
 const VideoPage: NextPage<VideoPageProps> = ({ data }) => (
   <Container
+    h="100vh"
     maxW="full"
+    background={`
+        linear-gradient(to right, black 30%, transparent),
+        url(${data.secondaryBackground.url})
+      `}
+    bgPosition="right"
+    bgSize="contain"
   >
     {JSON.stringify(data)}
   </Container>
