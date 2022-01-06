@@ -1,6 +1,6 @@
 import React from 'react';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { Container } from '@chakra-ui/react';
+import { Container, SimpleGrid } from '@chakra-ui/react';
 import { ParsedUrlQuery } from 'querystring';
 import { Video } from '../../modules/video/schemas/video';
 import { getVideos } from '../../modules/video/functions/getVideos';
@@ -20,6 +20,8 @@ type VideoPageStaticProps = {
 
 const VideoPage: NextPage<VideoPageProps> = ({ data }) => (
   <Container
+    py={8}
+    px={16}
     h="100vh"
     maxW="full"
     background={`
@@ -29,7 +31,9 @@ const VideoPage: NextPage<VideoPageProps> = ({ data }) => (
     bgPosition="right"
     bgSize="contain"
   >
-    {JSON.stringify(data)}
+    <SimpleGrid columns={2}>
+      {JSON.stringify(data)}
+    </SimpleGrid>
   </Container>
 );
 
