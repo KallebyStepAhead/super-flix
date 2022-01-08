@@ -38,13 +38,15 @@ export function VideoDetails({ data }: VideoDetailsProps) {
             textTransform="uppercase"
             marginTop="-4"
             noOfLines={2}
+            title={data.title}
           >
             {data.title}
           </Heading>
 
-          <Text noOfLines={4}>
-            {data.description}
-            {data.description}
+          <Text
+            noOfLines={4}
+            title={data.description}
+          >
             {data.description}
           </Text>
         </VStack>
