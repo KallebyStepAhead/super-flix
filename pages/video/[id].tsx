@@ -1,11 +1,14 @@
 import React from 'react';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
-import { Container, SimpleGrid } from '@chakra-ui/react';
+import {
+  Container, SimpleGrid, Spacer, VStack,
+} from '@chakra-ui/react';
 import { ParsedUrlQuery } from 'querystring';
 import { Video } from '../../modules/video/schemas/video';
 import { getVideos } from '../../modules/video/functions/getVideos';
 import { getVideoById } from '../../modules/video/functions/getVideoById';
 import { VideoDetails } from '../../modules/video/components/VideoDetails';
+import { GoBackLink } from '../../modules/video/components/GoBackLink';
 
 export type IVideoParams = ParsedUrlQuery & {
   id: string
@@ -33,9 +36,17 @@ const VideoPage: NextPage<VideoPageProps> = ({ data }) => (
     bgSize="contain"
   >
     <SimpleGrid columns={2}>
-      <VideoDetails
-        data={data}
-      />
+      <VStack
+        alignItems="left"
+        gap={8}
+        h="full"
+      >
+        <GoBackLink />
+
+        <Spacer />
+
+        <VideoDetails data={data} />
+      </VStack>
     </SimpleGrid>
   </Container>
 );
