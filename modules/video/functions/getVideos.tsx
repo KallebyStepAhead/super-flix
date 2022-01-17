@@ -19,6 +19,7 @@ export const getVideosQuery: TypedDocumentNode<GetVideosData> = gql`
       }
       videoContent {
         url
+        mimeType
       }
       secondaryBackground {
         url

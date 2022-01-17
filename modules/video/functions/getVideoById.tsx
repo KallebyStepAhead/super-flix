@@ -23,6 +23,7 @@ export const getVideosQuery: TypedDocumentNode<GetVideosByIdData, GetVideoByIdVa
       }
       videoContent {
         url
+        mimeType
       }
       secondaryBackground {
         url
