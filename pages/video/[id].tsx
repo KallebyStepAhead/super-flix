@@ -1,6 +1,7 @@
 import React from 'react';
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import {
+  Center,
   Container, SimpleGrid, Spacer, VStack,
 } from '@chakra-ui/react';
 import { ParsedUrlQuery } from 'querystring';
@@ -9,6 +10,7 @@ import { getVideos } from '../../modules/video/functions/getVideos';
 import { getVideoById } from '../../modules/video/functions/getVideoById';
 import { VideoDetails } from '../../modules/video/components/VideoDetails';
 import { GoBackLink } from '../../modules/video/components/GoBackLink';
+import { Player } from '../../modules/video/components/Player';
 
 export type IVideoParams = ParsedUrlQuery & {
   id: string
@@ -24,10 +26,11 @@ type VideoPageStaticProps = {
 
 const VideoPage: NextPage<VideoPageProps> = ({ data }) => (
   <Container
-    py={8}
-    px={16}
-    h="100vh"
     maxW="full"
+    h="100vh"
+    py={8}
+    paddingLeft={16}
+    paddingRight={8}
     background={`
         linear-gradient(to right, black 30%, transparent),
         url(${data.secondaryBackground.url})
@@ -35,18 +38,25 @@ const VideoPage: NextPage<VideoPageProps> = ({ data }) => (
     bgPosition="right"
     bgSize="contain"
   >
-    <SimpleGrid columns={2}>
+    <SimpleGrid
+      columns={2}
+      h="full"
+      gap={8}
+    >
       <VStack
         alignItems="left"
         gap={8}
-        h="full"
       >
         <GoBackLink />
 
         <Spacer />
-
         <VideoDetails data={data} />
+        <Spacer />
       </VStack>
+
+      <Center>
+        <Player media={data.videoContent} />
+      </Center>
     </SimpleGrid>
   </Container>
 );

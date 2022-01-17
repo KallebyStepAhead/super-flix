@@ -26,6 +26,7 @@
         "import/extensions": "off",
         "react/jsx-no-bind": "off",
         "import/no-unresolved": "off",
+        "no-unused-expressions":  ["error", { "allowTernary": true }],
         "jsx-a11y/anchor-is-valid": "off",
         "react/require-default-props": "off",
         "import/prefer-default-export": "off",
