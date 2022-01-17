@@ -17,50 +17,53 @@ export type IVideoParams = ParsedUrlQuery & {
 }
 
 type VideoPageProps = {
-  data: Video
+  data?: Video
 }
 
 type VideoPageStaticProps = {
   data: Video | null
 }
 
-const VideoPage: NextPage<VideoPageProps> = ({ data }) => (
-  <Container
-    maxW="full"
-    h="100vh"
-    py={8}
-    paddingLeft={16}
-    paddingRight={8}
-    background={`
+const VideoPage: NextPage<VideoPageProps> = ({ data }) => {
+  if (!data) return <Container />;
+
+  return (
+    <Container
+      maxW="full"
+      h="100vh"
+      py={8}
+      paddingLeft={16}
+      paddingRight={8}
+      background={`
         linear-gradient(to right, black 30%, transparent),
         url(${data.secondaryBackground.url})
       `}
-    bgPosition="right"
-    bgSize="contain"
-  >
-    <SimpleGrid
-      columns={2}
-      h="full"
-      gap={8}
+      bgPosition="right"
+      bgSize="contain"
     >
-      <VStack
-        alignItems="left"
+      <SimpleGrid
+        columns={2}
+        h="full"
         gap={8}
       >
-        <GoBackLink />
+        <VStack
+          alignItems="left"
+          gap={8}
+        >
+          <GoBackLink />
 
-        <Spacer />
-        <VideoDetails data={data} />
-        <Spacer />
-      </VStack>
+          <Spacer />
+          <VideoDetails data={data} />
+          <Spacer />
+        </VStack>
 
-      <Center>
-        <Player media={data.videoContent} />
-      </Center>
-    </SimpleGrid>
-  </Container>
-);
-
+        <Center>
+          <Player media={data.videoContent} />
+        </Center>
+      </SimpleGrid>
+    </Container>
+  );
+};
 export default VideoPage;
 
 export const getStaticPaths: GetStaticPaths<IVideoParams> = async () => {
