@@ -4,10 +4,13 @@ import React, {
 import {
   IconButton, Slider,
   Box, Container, HStack,
-  SliderFilledTrack, SliderThumb, SliderTrack, Text, Tooltip,
+  SliderFilledTrack, SliderThumb,
+  SliderTrack, Text, Tooltip, Popover,
+  PopoverTrigger, PopoverArrow, PopoverBody,
+  PopoverContent,
 } from '@chakra-ui/react';
 import {
-  FiMaximize2, FiMinimize2, FiPause, FiPlay, FiVolume2, FiVolumeX,
+  FiMaximize2, FiMinimize2, FiPause, FiPlay, FiVolume, FiVolume1, FiVolume2, FiVolumeX,
 } from 'react-icons/fi';
 import { parseDurationToTimeString } from '../../../../shared/helpers/timeStringParser';
 import { MediaAsset } from '../../schemas/video';
@@ -26,12 +29,17 @@ export function Player({ media }: PlayerProps) {
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [audioVolume, setAudioVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   const playerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const volumeIcon = ((audioVolume === 0) && <FiVolumeX />)
+    || ((audioVolume > 0 && audioVolume <= 0.25) && <FiVolume />)
+    || ((audioVolume > 0.25 && audioVolume <= 0.5) && <FiVolume1 />)
+    || (<FiVolume2 />);
 
   function handleCanPlay({ currentTarget }: VideoEvent) {
     setDuration(currentTarget.duration);
@@ -52,6 +60,17 @@ export function Player({ media }: PlayerProps) {
 
     setCurrentTime(time);
     setTimeProgress(value);
+  }
+
+  function handleVolumeChange(value: number) {
+    if (!videoRef.current) return;
+
+    if (value > 0) {
+      videoRef.current.muted = false;
+    }
+
+    videoRef.current.volume = value;
+    setAudioVolume(value);
   }
 
   async function handlePlayChange() {
@@ -77,11 +96,10 @@ export function Player({ media }: PlayerProps) {
   function handleMuteChange() {
     if (!videoRef.current) return;
 
-    const muteState = !isMuted;
+    const muteState = audioVolume > 0;
 
     videoRef.current.muted = muteState;
-
-    setIsMuted(muteState);
+    setAudioVolume(muteState ? 0 : 1);
   }
 
   const keyMap: KeyMap = {
@@ -167,21 +185,43 @@ export function Player({ media }: PlayerProps) {
             </Tooltip>
           </Slider>
 
-          <Tooltip
-            hasArrow
-            placement="top"
-            label={`${isMuted ? 'unmute' : 'mute'} (m)`}
-          >
-            <IconButton
-              size="sm"
-              rounded="full"
-              cursor="pointer"
-              onClick={handleMuteChange}
-              aria-label={isMuted ? 'unmute' : 'mute'}
-              title={isFullScreen ? `${isMuted ? 'unmute' : 'mute'} (m)` : ''}
-              icon={isMuted ? <FiVolumeX /> : <FiVolume2 />}
-            />
-          </Tooltip>
+          <Popover>
+            <PopoverTrigger>
+              <IconButton
+                size="sm"
+                rounded="full"
+                cursor="pointer"
+                aria-label={`volume: ${audioVolume * 100} %`}
+                title={isFullScreen ? `volume: ${audioVolume * 100} %` : ''}
+                icon={volumeIcon}
+              />
+            </PopoverTrigger>
+
+            <PopoverContent
+              maxW="10"
+              py={2}
+            >
+              <PopoverArrow />
+              <PopoverBody>
+                <Slider
+                  minH="32"
+                  max={1}
+                  min={0}
+                  step={0.01}
+                  orientation="vertical"
+                  aria-label="volume-control"
+                  value={audioVolume}
+                  onChange={handleVolumeChange}
+                >
+                  <SliderTrack>
+                    <SliderFilledTrack />
+                  </SliderTrack>
+
+                  <SliderThumb />
+                </Slider>
+              </PopoverBody>
+            </PopoverContent>
+          </Popover>
 
           <HStack>
             <Text>{parseDurationToTimeString(currentTime)}</Text>
