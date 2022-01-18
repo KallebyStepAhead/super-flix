@@ -1,9 +1,11 @@
+import React, {
+  KeyboardEvent, useRef, useState,
+} from 'react';
 import {
   IconButton, Slider,
   Box, Container, HStack,
   SliderFilledTrack, SliderThumb, SliderTrack, Text,
 } from '@chakra-ui/react';
-import React, { useRef, useState } from 'react';
 import {
   FiMaximize2, FiMinimize2, FiPause, FiPlay,
 } from 'react-icons/fi';
@@ -12,6 +14,10 @@ import { MediaAsset } from '../../schemas/video';
 
 type PlayerProps = {
   media: MediaAsset
+}
+
+type KeyMap = {
+  [name: string]: Function
 }
 
 type VideoEvent = React.SyntheticEvent<HTMLVideoElement, Event>
@@ -34,7 +40,6 @@ export function Player({ media }: PlayerProps) {
     const time = e.currentTarget.currentTime;
     setCurrentTime(time);
     setTimeProgress((time / duration) * 100);
-
   }
 
   function handleTimeChange(value: number) {
@@ -68,6 +73,21 @@ export function Player({ media }: PlayerProps) {
     setIsFullScreen(fullScreenState);
   }
 
+  const keyMap: KeyMap = {
+    KeyF: handleFullScreenChange,
+    Space: handlePlayChange,
+  };
+
+  function handleKeyPress(event: KeyboardEvent<HTMLVideoElement>) {
+    const { code } = event;
+
+    const keyMethod = keyMap[code];
+
+    if (!keyMethod) return;
+
+    keyMethod();
+  }
+
   return (
     <Box
       ref={playerRef}
@@ -82,6 +102,7 @@ export function Player({ media }: PlayerProps) {
         onPlaying={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onTimeUpdate={handleTimeUpdate}
+        onKeyPress={handleKeyPress}
       >
         <track kind="captions" />
         <source src={media.url} type={media.mimetype} />
@@ -107,6 +128,7 @@ export function Player({ media }: PlayerProps) {
             cursor="pointer"
             onClick={handlePlayChange}
             aria-label={isPlaying ? 'pause' : 'play'}
+            title={`${isPlaying ? 'pause' : 'play'} (space)`}
             icon={isPlaying ? <FiPause /> : <FiPlay />}
           />
 
@@ -133,6 +155,7 @@ export function Player({ media }: PlayerProps) {
             cursor="pointer"
             onClick={handleFullScreenChange}
             aria-label={isFullScreen ? 'minimize' : 'full-screen'}
+            title={`${isFullScreen ? 'minimize' : 'full-screen'} (f)`}
             icon={isFullScreen ? <FiMinimize2 /> : <FiMaximize2 />}
           />
 
