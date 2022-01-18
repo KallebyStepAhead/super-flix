@@ -2,6 +2,7 @@ import React, {
   KeyboardEvent, useEffect, useRef, useState,
 } from 'react';
 import {
+  Progress,
   IconButton, Slider,
   Box, Container, HStack,
   SliderFilledTrack, SliderThumb,
@@ -29,6 +30,7 @@ type VideoEvent = React.SyntheticEvent<HTMLVideoElement, Event>
 export function Player({ media, poster }: PlayerProps) {
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [loadProgress, setLoadProgress] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
   const [audioVolume, setAudioVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -53,10 +55,31 @@ export function Player({ media, poster }: PlayerProps) {
     setDuration(currentTarget.duration);
   }
 
+  function handleProgress({ currentTarget }: VideoEvent) {
+    let range = 0;
+    const buffer = currentTarget.buffered;
+    const time = currentTarget.currentTime;
+
+    try {
+      while (!(buffer.start(range) <= time && time <= buffer.end(range))) {
+        range += 1;
+      }
+    // eslint-disable-next-line no-empty
+    } catch {}
+
+    const loadStart = buffer.start(range) / duration;
+    const loadEnd = buffer.end(range) / duration;
+
+    const loadPercentage = (loadEnd - loadStart) * 100;
+    setLoadProgress(loadPercentage);
+  }
+
   function handleTimeUpdate(e: VideoEvent) {
     const time = e.currentTarget.currentTime;
     setCurrentTime(time);
     setTimeProgress((time / duration) * 100);
+
+    handleProgress(e);
   }
 
   function handleTimeChange(value: number) {
@@ -186,9 +209,18 @@ export function Player({ media, poster }: PlayerProps) {
             value={timeProgress}
             onChange={handleTimeChange}
             focusThumbOnChange={false}
+            colorScheme="facebook"
+            position="relative"
           >
             <SliderTrack>
+              <Progress
+                w="full"
+                position="absolute"
+                colorScheme="whiteAlpha"
+                value={loadProgress + timeProgress}
+              />
               <SliderFilledTrack />
+
             </SliderTrack>
             <Tooltip
               hasArrow
@@ -222,6 +254,7 @@ export function Player({ media, poster }: PlayerProps) {
                   max={1}
                   min={0}
                   step={0.01}
+                  colorScheme="facebook"
                   orientation="vertical"
                   aria-label="volume-control"
                   value={audioVolume}
