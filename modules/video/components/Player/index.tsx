@@ -1,5 +1,5 @@
 import React, {
-  KeyboardEvent, useRef, useState,
+  KeyboardEvent, useEffect, useRef, useState,
 } from 'react';
 import {
   IconButton, Slider,
@@ -35,6 +35,13 @@ export function Player({ media }: PlayerProps) {
 
   const playerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (!playerRef.current) return;
+
+    playerRef.current
+      .addEventListener('fullscreenchange', () => setIsFullScreen(!!document.fullscreenElement));
+  }, []);
 
   const volumeIcon = ((audioVolume === 0) && <FiVolumeX />)
     || ((audioVolume > 0 && audioVolume <= 0.25) && <FiVolume />)
@@ -124,15 +131,20 @@ export function Player({ media }: PlayerProps) {
       position="relative"
     >
       <video
-        width="100%"
         ref={videoRef}
         onCanPlay={handleCanPlay}
+        onPlay={(e) => !duration && handleCanPlay(e)}
         onClick={handlePlayChange}
         onDoubleClick={handleFullScreenChange}
         onPlaying={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onTimeUpdate={handleTimeUpdate}
         onKeyPress={handleKeyPress}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+        }}
       >
         <track kind="captions" />
         <source src={media.url} type={media.mimetype} />
