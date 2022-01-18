@@ -4,10 +4,10 @@ import React, {
 import {
   IconButton, Slider,
   Box, Container, HStack,
-  SliderFilledTrack, SliderThumb, SliderTrack, Text,
+  SliderFilledTrack, SliderThumb, SliderTrack, Text, Tooltip,
 } from '@chakra-ui/react';
 import {
-  FiMaximize2, FiMinimize2, FiPause, FiPlay,
+  FiMaximize2, FiMinimize2, FiPause, FiPlay, FiVolume2, FiVolumeX,
 } from 'react-icons/fi';
 import { parseDurationToTimeString } from '../../../../shared/helpers/timeStringParser';
 import { MediaAsset } from '../../schemas/video';
@@ -26,6 +26,7 @@ export function Player({ media }: PlayerProps) {
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
 
@@ -73,8 +74,19 @@ export function Player({ media }: PlayerProps) {
     setIsFullScreen(fullScreenState);
   }
 
+  function handleMuteChange() {
+    if (!videoRef.current) return;
+
+    const muteState = !isMuted;
+
+    videoRef.current.muted = muteState;
+
+    setIsMuted(muteState);
+  }
+
   const keyMap: KeyMap = {
     KeyF: handleFullScreenChange,
+    KeyM: handleMuteChange,
     Space: handlePlayChange,
   };
 
@@ -122,15 +134,21 @@ export function Player({ media }: PlayerProps) {
           alignItems="center"
           bgColor="blackAlpha.600"
         >
-          <IconButton
-            size="sm"
-            rounded="full"
-            cursor="pointer"
-            onClick={handlePlayChange}
-            aria-label={isPlaying ? 'pause' : 'play'}
-            title={`${isPlaying ? 'pause' : 'play'} (space)`}
-            icon={isPlaying ? <FiPause /> : <FiPlay />}
-          />
+          <Tooltip
+            hasArrow
+            placement="top"
+            label={`${isPlaying ? 'pause' : 'play'} (space)`}
+          >
+            <IconButton
+              size="sm"
+              rounded="full"
+              cursor="pointer"
+              onClick={handlePlayChange}
+              aria-label={isPlaying ? 'pause' : 'play'}
+              icon={isPlaying ? <FiPause /> : <FiPlay />}
+              title={isFullScreen ? `${isPlaying ? 'pause' : 'play'} (space)` : ''}
+            />
+          </Tooltip>
 
           <Slider
             value={timeProgress}
@@ -140,8 +158,30 @@ export function Player({ media }: PlayerProps) {
             <SliderTrack>
               <SliderFilledTrack />
             </SliderTrack>
-            <SliderThumb />
+            <Tooltip
+              hasArrow
+              placement="top"
+              label={parseDurationToTimeString(currentTime)}
+            >
+              <SliderThumb />
+            </Tooltip>
           </Slider>
+
+          <Tooltip
+            hasArrow
+            placement="top"
+            label={`${isMuted ? 'unmute' : 'mute'} (m)`}
+          >
+            <IconButton
+              size="sm"
+              rounded="full"
+              cursor="pointer"
+              onClick={handleMuteChange}
+              aria-label={isMuted ? 'unmute' : 'mute'}
+              title={isFullScreen ? `${isMuted ? 'unmute' : 'mute'} (m)` : ''}
+              icon={isMuted ? <FiVolumeX /> : <FiVolume2 />}
+            />
+          </Tooltip>
 
           <HStack>
             <Text>{parseDurationToTimeString(currentTime)}</Text>
@@ -149,16 +189,21 @@ export function Player({ media }: PlayerProps) {
             <Text>{parseDurationToTimeString(duration)}</Text>
           </HStack>
 
-          <IconButton
-            size="sm"
-            rounded="full"
-            cursor="pointer"
-            onClick={handleFullScreenChange}
-            aria-label={isFullScreen ? 'minimize' : 'full-screen'}
-            title={`${isFullScreen ? 'minimize' : 'full-screen'} (f)`}
-            icon={isFullScreen ? <FiMinimize2 /> : <FiMaximize2 />}
-          />
-
+          <Tooltip
+            hasArrow
+            placement="top"
+            label={`${isFullScreen ? 'minimize' : 'full-screen'} (f)`}
+          >
+            <IconButton
+              size="sm"
+              rounded="full"
+              cursor="pointer"
+              onClick={handleFullScreenChange}
+              aria-label={isFullScreen ? 'minimize' : 'full-screen'}
+              title={isFullScreen ? 'minimize (f)' : ''}
+              icon={isFullScreen ? <FiMinimize2 /> : <FiMaximize2 />}
+            />
+          </Tooltip>
         </HStack>
       </Container>
     </Box>
