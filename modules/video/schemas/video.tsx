@@ -12,5 +12,6 @@ export type Video = {
   description: string
   thumbnail: VideoAsset
   videoContent: MediaAsset
+  primaryBackground: VideoAsset
   secondaryBackground: VideoAsset
 }

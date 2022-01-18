@@ -13,10 +13,11 @@ import {
   FiMaximize2, FiMinimize2, FiPause, FiPlay, FiVolume, FiVolume1, FiVolume2, FiVolumeX,
 } from 'react-icons/fi';
 import { parseDurationToTimeString } from '../../../../shared/helpers/timeStringParser';
-import { MediaAsset } from '../../schemas/video';
+import { MediaAsset, VideoAsset } from '../../schemas/video';
 
 type PlayerProps = {
   media: MediaAsset
+  poster?: VideoAsset
 }
 
 type KeyMap = {
@@ -25,7 +26,7 @@ type KeyMap = {
 
 type VideoEvent = React.SyntheticEvent<HTMLVideoElement, Event>
 
-export function Player({ media }: PlayerProps) {
+export function Player({ media, poster }: PlayerProps) {
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [timeProgress, setTimeProgress] = useState(0);
@@ -132,6 +133,7 @@ export function Player({ media }: PlayerProps) {
     >
       <video
         ref={videoRef}
+        poster={poster?.url}
         onCanPlay={handleCanPlay}
         onPlay={(e) => !duration && handleCanPlay(e)}
         onClick={handlePlayChange}
@@ -143,7 +145,7 @@ export function Player({ media }: PlayerProps) {
         style={{
           width: '100%',
           height: '100%',
-          objectFit: 'contain',
+          objectFit: 'cover',
         }}
       >
         <track kind="captions" />

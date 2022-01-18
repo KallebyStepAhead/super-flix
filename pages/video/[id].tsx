@@ -58,7 +58,10 @@ const VideoPage: NextPage<VideoPageProps> = ({ data }) => {
         </VStack>
 
         <Center>
-          <Player media={data.videoContent} />
+          <Player
+            media={data.videoContent}
+            poster={data.primaryBackground}
+          />
         </Center>
       </SimpleGrid>
     </Container>
