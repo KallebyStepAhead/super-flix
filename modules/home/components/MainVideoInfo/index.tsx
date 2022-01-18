@@ -3,13 +3,28 @@ import {
   Button,
   Text, VStack,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { Video } from '../../schemas/video';
+import { IVideoParams } from '../../../../pages/video/[id]';
 
 type MainVideoInfoProps = {
   data: Video
 }
 
 export function MainVideoInfo({ data }: MainVideoInfoProps) {
+  const router = useRouter();
+
+  function handlePlay() {
+    const query: IVideoParams = {
+      id: data.id,
+    };
+
+    router.push({
+      pathname: '/video/[id]',
+      query,
+    });
+  }
+
   return (
     <VStack
       maxW="container.sm"
@@ -31,6 +46,7 @@ export function MainVideoInfo({ data }: MainVideoInfoProps) {
         px={16}
         rounded="2xl"
         textTransform="uppercase"
+        onClick={handlePlay}
         transition="all .2s ease-in-out"
         bgColor="purple.600"
         _hover={{
