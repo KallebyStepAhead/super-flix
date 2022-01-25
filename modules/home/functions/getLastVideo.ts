@@ -12,7 +12,7 @@ type GetLastVideoResult = {
 
 export const getVideosQuery: TypedDocumentNode<GetLastVideoData> = gql`
   query {
-    videos(last: 1) {
+    videos(orderBy: createdAt_DESC, first: 1) {
       id
       title
       thumbnail {
