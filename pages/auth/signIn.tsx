@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import NextLink from 'next/link';
+import { signIn as NextSignIn } from 'next-auth/react';
 import type { GetStaticProps, NextPage } from 'next';
 import {
   Button, Container, FormControl,
@@ -7,6 +8,7 @@ import {
   SimpleGrid, Spacer, Text, VStack,
   FormErrorMessage,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { CoverVideo } from '../../modules/auth/schemas/coverVideo';
 import { getCoverVideo } from '../../modules/auth/functions/getCoverVideo';
 
@@ -19,7 +21,18 @@ const SignIn: NextPage<SignInPageProps> = ({ coverVideo }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const router = useRouter();
+
   async function handleSignIn() {
+    const response = await NextSignIn<'credentials'>('credentials', { redirect: false, email, password });
+
+    if (!response?.url && response?.error) {
+      setErrorMessage(response.error);
+
+      return;
+    }
+
+    router.push({ pathname: '/' });
   }
 
   return (
