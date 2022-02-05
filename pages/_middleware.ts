@@ -17,7 +17,13 @@ export async function middleware(req: NextRequest) {
     secret,
   });
 
-  const isAllowed = token || pathname.includes('/api/auth') || pathname === '/auth/signIn';
+  const isAuthRoute = (
+    pathname.includes('/api/auth')
+    || pathname === '/auth/signIn'
+    || pathname === '/auth/signUp'
+  );
+
+  const isAllowed = !!token || isAuthRoute;
 
   if (isAllowed) {
     return NextResponse.next();

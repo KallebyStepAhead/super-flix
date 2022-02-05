@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NextLink from 'next/link';
-import { signIn as NextSignIn } from 'next-auth/react';
+import Axios, { AxiosError } from 'axios';
 import type { GetStaticProps, NextPage } from 'next';
 import {
   Button, Container, FormControl,
@@ -8,31 +8,50 @@ import {
   SimpleGrid, Spacer, Text, VStack,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 import { CoverVideo } from '../../modules/auth/schemas/coverVideo';
 import { getCoverVideo } from '../../modules/auth/functions/getCoverVideo';
+import { SignUpErrorResponse, SignUpResponse } from '../api/auth/signUp';
 
-type SignInPageProps = {
+type SignUpPageProps = {
   coverVideo: CoverVideo
 }
 
-const SignIn: NextPage<SignInPageProps> = ({ coverVideo }) => {
+const SignUp: NextPage<SignUpPageProps> = ({ coverVideo }) => {
   const [errorMessage, setErrorMessage] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const router = useRouter();
+  async function handleSignUp() {
+    const data = {
+      name,
+      email,
+      password,
+    };
 
-  async function handleSignIn() {
-    const response = await NextSignIn<'credentials'>('credentials', { redirect: false, email, password });
+    Axios.post<SignUpResponse>('/api/auth/signUp', { data })
+      .then(() => {
+        signIn('credentials', { redirect: true, email, password });
+      })
+      .catch((error: Error | AxiosError<SignUpErrorResponse>) => {
+        if (!Axios.isAxiosError(error)) return;
 
-    if (!response?.url && response?.error) {
-      setErrorMessage(response.error);
+        if (!error.response) return;
 
-      return;
-    }
+        const { data: errors } = error.response;
 
-    router.push({ pathname: '/' });
+        if (Array.isArray(errors)) {
+          const errorsMessage = errors
+            .map((item) => item.message)
+            .join('\n');
+
+          setErrorMessage(errorsMessage);
+          return;
+        }
+
+        setErrorMessage(errors.message);
+      });
   }
 
   return (
@@ -65,16 +84,28 @@ const SignIn: NextPage<SignInPageProps> = ({ coverVideo }) => {
             gap={4}
             alignItems="flex-start"
           >
-            <Heading>SignIn</Heading>
+            <Heading>SignUp</Heading>
 
             <Text>
-              Welcome back! Please login to your account
+              Ready to watch the best movies?
             </Text>
           </VStack>
 
           <VStack
             w="full"
           >
+            <FormControl>
+              <FormLabel htmlFor="name">
+                Username
+              </FormLabel>
+              <Input
+                id="name"
+                value={name}
+                onChange={(ev) => setName(ev.target.value)}
+                focusBorderColor="purple.400"
+              />
+            </FormControl>
+
             <FormControl>
               <FormLabel htmlFor="email">
                 Email Address
@@ -108,7 +139,7 @@ const SignIn: NextPage<SignInPageProps> = ({ coverVideo }) => {
               w="full"
               rounded="2xl"
               textTransform="uppercase"
-              onClick={handleSignIn}
+              onClick={handleSignUp}
               transition="all .2s ease-in-out"
               bgColor="purple.600"
               _hover={{
@@ -128,10 +159,10 @@ const SignIn: NextPage<SignInPageProps> = ({ coverVideo }) => {
           </FormControl>
 
           <Text>
-            New user?
+            Already have an account?
             {' '}
-            <NextLink href="/auth/signUp">
-              <Link color="purple.400">SignUp</Link>
+            <NextLink href="/auth/signIn">
+              <Link color="purple.400">SignIn</Link>
             </NextLink>
           </Text>
         </VStack>
@@ -140,9 +171,9 @@ const SignIn: NextPage<SignInPageProps> = ({ coverVideo }) => {
   );
 };
 
-export default SignIn;
+export default SignUp;
 
-export const getStaticProps: GetStaticProps<SignInPageProps> = async () => {
+export const getStaticProps: GetStaticProps<SignUpPageProps> = async () => {
   const { coverVideo } = await getCoverVideo();
 
   return {
