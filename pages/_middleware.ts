@@ -1,9 +1,9 @@
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
 import type { NextApiRequest } from 'next';
-import type { NextRequest } from 'next/server';
+import type { NextMiddleware } from 'next/server';
 
-export async function middleware(req: NextRequest) {
+const middleware: NextMiddleware = async (req) => {
   const { pathname } = req.nextUrl;
 
   const secret = process.env.NEXTAUTH_SECRET;
@@ -23,6 +23,10 @@ export async function middleware(req: NextRequest) {
     || pathname === '/auth/signUp'
   );
 
+  if (isAuthRoute && !!token) {
+    return NextResponse.redirect('/');
+  }
+
   const isAllowed = !!token || isAuthRoute;
 
   if (isAllowed) {
@@ -31,4 +35,6 @@ export async function middleware(req: NextRequest) {
 
   // If user neither authenticated nor is auth route, redirect.
   return NextResponse.redirect('/api/auth/signin');
-}
+};
+
+export default middleware;
