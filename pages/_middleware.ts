@@ -3,7 +3,7 @@ import { getToken } from 'next-auth/jwt';
 import { NextMiddleware, NextResponse } from 'next/server';
 
 export const middleware: NextMiddleware = async (req) => {
-  console.log('Running middleware');
+  console.log('Running Index middleware');
 
   const { pathname } = req.nextUrl;
 
@@ -19,7 +19,7 @@ export const middleware: NextMiddleware = async (req) => {
     secret,
   });
 
-  console.log('auth token', token);
+  console.log('Stopping Index Middleware:\nAuthToken:', token);
 
   // If user neither authenticated nor is auth route, redirect.
   return NextResponse.next();
