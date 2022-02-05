@@ -5,7 +5,7 @@ import { NextMiddleware, NextResponse } from 'next/server';
 export const middleware: NextMiddleware = async (req) => {
   console.log('Running Index middleware');
 
-  const { pathname } = req.nextUrl;
+  // const { pathname } = req.nextUrl;
 
   const secret = process.env.NEXTAUTH_SECRET;
 
