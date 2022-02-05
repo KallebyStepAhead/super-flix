@@ -21,21 +21,6 @@ export const middleware: NextMiddleware = async (req) => {
 
   console.log('auth token', token);
 
-  const isAuthRoute = (
-    pathname.includes('/api/auth')
-    || pathname === '/auth/signIn'
-    || pathname === '/auth/signUp'
-  );
-
-  const isAllowed = !!token || isAuthRoute;
-
-  if (isAllowed) {
-    console.log('allowed');
-    return NextResponse.next();
-  }
-
-  console.log('redirect to signIn');
-
   // If user neither authenticated nor is auth route, redirect.
-  return NextResponse.redirect('/api/auth/signin');
+  return NextResponse.next();
 };
