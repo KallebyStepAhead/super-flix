@@ -15,6 +15,8 @@ export async function middleware(req) {
     secret,
   });
 
+  console.log(token);
+
   const isAuthRoute = (
     pathname.includes('/api/auth')
     || pathname === '/auth/signIn'

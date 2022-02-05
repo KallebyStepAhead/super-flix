@@ -14,6 +14,8 @@ export async function middleware(req) {
     secret,
   });
 
+  console.log(token);
+
   // If user is already authenticated, redirect to index route
   if (token) {
     return NextResponse.redirect('/');
