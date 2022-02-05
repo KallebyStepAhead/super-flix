@@ -1,8 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SuperFlix App
+![Cover!](https://i.imgur.com/FqgJ6k1.jpg)
+
+Try this [Live demo](https://super-flix.vercel.app/)
+
+## About this project:
+SuperFlix app is a [React](https://reactjs.org/) application to stream movies.
+
+**PS:** Video streaming is just a concept for this project, the main goal building it is to learn [Chakra UI Design System](https://chakra-ui.com/),
+[NextJs Middlewares](https://nextjs.org/docs/middleware) and also use [GraphCMS](https://graphcms.com/) to handle data and CRUD logic.
 
 ## Getting Started
+### Aplication Setup:
+#### 1. Creating API Server:
+>Create an account in [GraphCMS](https://app.graphcms.com/signup) and start a free blank project. Then add these two schemas: 
+>* [Video](https://i.imgur.com/puYIgMN.png "(target|_blank)")
+>* [NextUser](https://i.imgur.com/tUfUtM1.png "(target|_blank)")
 
-First, run the development server:
+#### 2. Getting API Authorization:
+>Create a permanent auth token, with these [Permissions](https://i.imgur.com/Wtja1Hj.png)
+> 
+>Need help? See [GraphCMS Pemanent Auth Token](https://graphcms.com/docs/api-reference/basics/permissions#permanent-auth-tokens-with-specific-models)
+
+#### 3. Adding environment variables:
+>Write a `.env.local` file with the following values:
+>```
+>API_URI="Your_GraphCMS_Endpoint"
+>API_TOKEN="Your_GraphCMS_Permanent_Token"
+>NEXTAUTH_SECRET="Your_App_Secret"
+>NEXTAUTH_URL="http://localhost:3000 or your custom app endpoint"
+>```
+>Need help?
+>* [GraphCMS Endpoint](https://graphcms.com/docs/api-reference/basics/authorization#api-endpoint)
+>* [NextAuth Secret](https://next-auth.js.org/configuration/options#nextauth_secret)
+>* [NextAuth Url](https://next-auth.js.org/configuration/options#nextauth_url)
+
+### Running
+Execute one of the commands bellow in order to run the development server:
 
 ```bash
 npm run dev
@@ -11,12 +44,6 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 ## Learn More
 
