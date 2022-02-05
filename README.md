@@ -1,8 +1,18 @@
-## Getting Started
+# SuperFlix App
+![Cover!](https://i.imgur.com/FqgJ6k1.jpg)
 
-### Aplication Config
+Try this [Live demo](https://super-flix.vercel.app/)
+
+## About this project:
+SuperFlix app is a [React](https://reactjs.org/) application to stream movies.
+
+**PS:** Video streaming is just a concept for this project, the main goal building it is to learn [Chakra UI Design System](https://chakra-ui.com/),
+[NextJs Middlewares](https://nextjs.org/docs/middleware) and also use [GraphCMS](https://graphcms.com/) to handle data and CRUD logic.
+
+## Getting Started
+### Aplication Setup:
 #### 1. Creating API Server:
->Create an account in [GraphCMS](https://graphcms.com/) and start a free blank project. Then add these two schemas: 
+>Create an account in [GraphCMS](https://app.graphcms.com/signup) and start a free blank project. Then add these two schemas: 
 >* [Video](https://i.imgur.com/puYIgMN.png "(target|_blank)")
 >* [NextUser](https://i.imgur.com/tUfUtM1.png "(target|_blank)")
 
