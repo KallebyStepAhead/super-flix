@@ -23,10 +23,6 @@ const middleware: NextMiddleware = async (req) => {
     || pathname === '/auth/signUp'
   );
 
-  if (isAuthRoute && !!token) {
-    return NextResponse.redirect('/');
-  }
-
   const isAllowed = !!token || isAuthRoute;
 
   if (isAllowed) {
