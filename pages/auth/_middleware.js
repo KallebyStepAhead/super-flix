@@ -5,6 +5,8 @@ import { NextResponse } from 'next/server';
 export async function middleware(req) {
   const secret = process.env.NEXTAUTH_SECRET;
 
+  console.log(secret);
+
   if (!secret) {
     return NextResponse.error();
   }
