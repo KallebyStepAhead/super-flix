@@ -8,6 +8,9 @@ export default NextAuth({
   pages: {
     signIn: '/auth/signIn',
   },
+  session: {
+    strategy: 'jwt',
+  },
   providers: [
     CredentialsProvider({
       name: 'Email and Password',
@@ -45,4 +48,10 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token }) {
+      console.log(token);
+      return token;
+    },
+  },
 });
