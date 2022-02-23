@@ -9,6 +9,7 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { CoverVideo } from '../../modules/auth/schemas/coverVideo';
 import { getCoverVideo } from '../../modules/auth/functions/getCoverVideo';
 import { SignUpErrorResponse, SignUpResponse } from '../api/auth/signUp';
@@ -23,6 +24,8 @@ const SignUp: NextPage<SignUpPageProps> = ({ coverVideo }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const router = useRouter();
+
   async function handleSignUp() {
     const data = {
       name,
@@ -32,7 +35,9 @@ const SignUp: NextPage<SignUpPageProps> = ({ coverVideo }) => {
 
     Axios.post<SignUpResponse>('/api/auth/signUp', { data })
       .then(() => {
-        signIn('credentials', { redirect: true, email, password });
+        signIn('credentials', { redirect: false, email, password });
+
+        router.push({ pathname: '/app' });
       })
       .catch((error: Error | AxiosError<SignUpErrorResponse>) => {
         if (!Axios.isAxiosError(error)) return;
