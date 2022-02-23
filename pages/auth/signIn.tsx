@@ -32,7 +32,7 @@ const SignIn: NextPage<SignInPageProps> = ({ coverVideo }) => {
       return;
     }
 
-    router.push({ pathname: '/' });
+    router.push({ pathname: '/app' });
   }
 
   return (

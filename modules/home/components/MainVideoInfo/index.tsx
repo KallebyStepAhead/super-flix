@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { Video } from '../../schemas/video';
-import { IVideoParams } from '../../../../pages/video/[id]';
+import { IVideoParams } from '../../../../pages/app/video/[id]';
 
 type MainVideoInfoProps = {
   data: Video
@@ -20,7 +20,7 @@ export function MainVideoInfo({ data }: MainVideoInfoProps) {
     };
 
     router.push({
-      pathname: '/video/[id]',
+      pathname: '/app/video/[id]',
       query,
     });
   }

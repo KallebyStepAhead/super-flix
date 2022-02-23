@@ -1,7 +1,7 @@
 import { Image, ListItem } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { IVideoParams } from '../../../../pages/video/[id]';
+import { IVideoParams } from '../../../../pages/app/video/[id]';
 import { Video } from '../../schemas/video';
 
 type VideoItemProps = {
@@ -17,7 +17,7 @@ export function VideoItem({ data }: VideoItemProps) {
     };
 
     router.push({
-      pathname: '/video/[id]',
+      pathname: '/app/video/[id]',
       query,
     });
   }

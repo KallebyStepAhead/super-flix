@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".graphqlrc", "pages/_middleware.js", "pages/auth/_middleware.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".graphqlrc", "pages/app/_middleware.ts", "pages/auth/middleware.ts"],
   "exclude": ["node_modules"]
 }

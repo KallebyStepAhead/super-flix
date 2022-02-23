@@ -5,12 +5,12 @@ import {
   Container, SimpleGrid, Spacer, VStack,
 } from '@chakra-ui/react';
 import { ParsedUrlQuery } from 'querystring';
-import { Video } from '../../modules/video/schemas/video';
-import { getVideos } from '../../modules/video/functions/getVideos';
-import { getVideoById } from '../../modules/video/functions/getVideoById';
-import { VideoDetails } from '../../modules/video/components/VideoDetails';
-import { GoBackLink } from '../../modules/video/components/GoBackLink';
-import { Player } from '../../modules/video/components/Player';
+import { Video } from '../../../modules/video/schemas/video';
+import { getVideos } from '../../../modules/video/functions/getVideos';
+import { getVideoById } from '../../../modules/video/functions/getVideoById';
+import { VideoDetails } from '../../../modules/video/components/VideoDetails';
+import { GoBackLink } from '../../../modules/video/components/GoBackLink';
+import { Player } from '../../../modules/video/components/Player';
 
 export type IVideoParams = ParsedUrlQuery & {
   id: string

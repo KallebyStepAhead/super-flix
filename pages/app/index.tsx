@@ -2,12 +2,12 @@ import React from 'react';
 import type { NextPage, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Container, Flex, Spacer } from '@chakra-ui/react';
-import { Video } from '../modules/home/schemas/video';
-import { getVideos } from '../modules/home/functions/getVideos';
-import { getLastVideo } from '../modules/home/functions/getLastVideo';
-import { NavBar } from '../modules/home/components/Navbar';
-import { MainVideoInfo } from '../modules/home/components/MainVideoInfo';
-import { ListSection } from '../modules/home/components/ListSection';
+import { Video } from '../../modules/home/schemas/video';
+import { getVideos } from '../../modules/home/functions/getVideos';
+import { getLastVideo } from '../../modules/home/functions/getLastVideo';
+import { NavBar } from '../../modules/home/components/Navbar';
+import { MainVideoInfo } from '../../modules/home/components/MainVideoInfo';
+import { ListSection } from '../../modules/home/components/ListSection';
 
 type HomeProps = {
   videos: Video[]
